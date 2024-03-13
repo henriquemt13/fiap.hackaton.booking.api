@@ -1,11 +1,6 @@
 version: "4.0"
 
 services:
-  rabbitmq:
-    image: rabbitmq:3.9.7-management
-    ports:
-      - 5672:5672
-      - 15672:15672
   database:
     image: postgres:13
     container_name: hackaton_booking_management_api
@@ -16,7 +11,7 @@ services:
     ports:
       - 5432:5432
 
-  parking-meter-api:
+  booking-management-api:
     build:
       context: .
       dockerfile: Dockerfile

@@ -3,6 +3,8 @@ package com.hackaton.booking.management.api.controller;
 import com.hackaton.booking.management.api.domain.dto.request.BuildingRequestDTO;
 import com.hackaton.booking.management.api.domain.dto.response.BuildingResponseDTO;
 import com.hackaton.booking.management.api.domain.mapper.BuildingMapper;
+import com.hackaton.booking.management.api.domain.mapper.RoomMapper;
+import com.hackaton.booking.management.api.exceptions.NotFoundException;
 import com.hackaton.booking.management.api.usecase.BuildingUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static java.lang.String.format;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/building")
@@ -21,6 +25,7 @@ public class BuildingController {
 
     private final BuildingUseCase buildingUseCase;
     private final BuildingMapper mapper;
+    private final RoomMapper roomMapper;
 
     @PostMapping
     @ApiResponse(description = "Building Response", responseCode = "201")
@@ -33,6 +38,7 @@ public class BuildingController {
             @RequestBody @Valid BuildingRequestDTO requestDTO) {
 
         var response = mapper.of(buildingUseCase.save(mapper.of(requestDTO)));
+        response.setRooms(roomMapper.of(buildingUseCase.findRoomsByIdBuilding(response.getId())));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -48,6 +54,23 @@ public class BuildingController {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.of(buildingUseCase.findAll()));
     }
 
+    @GetMapping("/{id}")
+    @ApiResponse(description = "Building Response", responseCode = "200")
+    @Operation(summary = "Get Building by Id", description = """
+          # Busca Prédio por Id
+          ---
+          
+          """)
+    public ResponseEntity<BuildingResponseDTO> findById(@PathVariable("id") @Valid Long id) {
+        var optBuilding = buildingUseCase.findById(id);
+        if (optBuilding.isPresent()) {
+            var response = mapper.of(optBuilding.get());
+            response.setRooms(roomMapper.of(buildingUseCase.findRoomsByIdBuilding(response.getId())));
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        }
+        throw new NotFoundException(format("Building ID %d not found", id));
+    }
+
     @PutMapping("/{id}")
     @ApiResponse(description = "Building Response", responseCode = "200")
     @Operation(summary = "Update Building Name by ID", description = """
@@ -59,7 +82,9 @@ public class BuildingController {
             @PathVariable("id") Long id,
             @RequestBody @Valid BuildingRequestDTO requestDTO) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.of(buildingUseCase.update(mapper.of(requestDTO), id)));
+        var response = mapper.of(buildingUseCase.update(mapper.of(requestDTO), id));
+        response.setRooms(roomMapper.of(buildingUseCase.findRoomsByIdBuilding(response.getId())));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/{id}")

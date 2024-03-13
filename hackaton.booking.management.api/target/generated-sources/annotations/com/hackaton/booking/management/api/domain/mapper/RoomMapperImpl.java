@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-12T20:15:04-0300",
+    date = "2024-03-13T15:33:49-0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17 (Oracle Corporation)"
 )
 @Component
@@ -24,12 +24,15 @@ public class RoomMapperImpl implements RoomMapper {
 
         Room room = new Room();
 
-        room.setType( requestDTO.getType() );
+        room.setType( getRoomTypeEnum( requestDTO.getType() ) );
+        room.setIdBuilding( requestDTO.getIdBuilding() );
         room.setMaxCapacity( requestDTO.getMaxCapacity() );
         room.setTotalBeds( requestDTO.getTotalBeds() );
         room.setTotalRooms( requestDTO.getTotalRooms() );
         room.setTotalDailyValue( requestDTO.getTotalDailyValue() );
-        room.setBathroomType( requestDTO.getBathroomType() );
+        if ( requestDTO.getBathroomType() != null ) {
+            room.setBathroomType( requestDTO.getBathroomType().name() );
+        }
 
         return room;
     }
@@ -41,6 +44,16 @@ public class RoomMapperImpl implements RoomMapper {
         }
 
         RoomResponseDTO roomResponseDTO = new RoomResponseDTO();
+
+        roomResponseDTO.setType( setRoomTypeEnum( room.getType() ) );
+        roomResponseDTO.setId( room.getId() );
+        roomResponseDTO.setIdBuilding( room.getIdBuilding() );
+        roomResponseDTO.setMaxCapacity( room.getMaxCapacity() );
+        roomResponseDTO.setTotalBeds( room.getTotalBeds() );
+        roomResponseDTO.setTotalRooms( room.getTotalRooms() );
+        roomResponseDTO.setTotalDailyValue( room.getTotalDailyValue() );
+        roomResponseDTO.setCreatedAt( room.getCreatedAt() );
+        roomResponseDTO.setUpdatedAt( room.getUpdatedAt() );
 
         return roomResponseDTO;
     }

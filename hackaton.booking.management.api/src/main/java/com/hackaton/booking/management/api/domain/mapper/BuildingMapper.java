@@ -4,10 +4,11 @@ import com.hackaton.booking.management.api.domain.dto.request.BuildingRequestDTO
 import com.hackaton.booking.management.api.domain.dto.response.BuildingResponseDTO;
 import com.hackaton.booking.management.api.domain.model.Building;
 import org.mapstruct.Mapper;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface BuildingMapper {
 
     Building of(BuildingRequestDTO requestDTO);

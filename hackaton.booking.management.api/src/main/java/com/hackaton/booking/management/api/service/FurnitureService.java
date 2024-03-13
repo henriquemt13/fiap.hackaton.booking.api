@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,12 @@ public class FurnitureService {
     }
 
     public void updateAll(List<Furniture> updateFurniture) {
-        updateFurniture.forEach(f -> findValidFurniture(f.getId()));
+        updateFurniture.forEach(f -> {
+            var current = findValidFurniture(f.getId());
+            f.setCreatedAt(current.getCreatedAt());
+            f.setUpdatedAt(OffsetDateTime.now());
+            f.setIdRoom(current.getIdRoom());
+        });
         repository.saveAll(updateFurniture);
     }
 
@@ -44,6 +50,10 @@ public class FurnitureService {
 
     public List<Furniture> findAll() {
         return repository.findAll();
+    }
+
+    public List<Furniture> findByIdRoom(Long idRoom) {
+        return repository.findByIdRoom(idRoom);
     }
 
 

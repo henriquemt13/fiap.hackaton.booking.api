@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,8 @@ public class BuildingService {
     public Building update(Building updateBuilding, Long id) {
         var currentBuilding = findValidBuilding(id);
         updateBuilding.setId(currentBuilding.getId());
+        updateBuilding.setCreatedAt(currentBuilding.getCreatedAt());
+        updateBuilding.setUpdatedAt(OffsetDateTime.now());
         return repository.save(updateBuilding);
     }
 
@@ -35,6 +38,10 @@ public class BuildingService {
 
     public Optional<Building> findById(Long id) {
         return repository.findById(id);
+    }
+
+    public List<Building> findByIdLocation(Long idLocation) {
+        return repository.findByIdLocation(idLocation);
     }
 
     public List<Building> findAll() {

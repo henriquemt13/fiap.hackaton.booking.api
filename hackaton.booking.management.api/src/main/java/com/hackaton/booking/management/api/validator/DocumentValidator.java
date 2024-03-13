@@ -1,4 +1,4 @@
-package com.tech.challenge.parking.meter.api.validator;
+package com.hackaton.booking.management.api.validator;
 
 import br.com.caelum.stella.validation.CNPJValidator;
 import br.com.caelum.stella.validation.CPFValidator;

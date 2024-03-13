@@ -4,6 +4,7 @@ import com.hackaton.booking.management.api.domain.dto.request.LocationRequestDTO
 import com.hackaton.booking.management.api.domain.dto.response.LocationResponseDTO;
 import com.hackaton.booking.management.api.domain.mapper.AmenityMapper;
 import com.hackaton.booking.management.api.domain.mapper.LocationMapper;
+import com.hackaton.booking.management.api.exceptions.NotFoundException;
 import com.hackaton.booking.management.api.usecase.LocationUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static java.lang.String.format;
 
 @AllArgsConstructor
 @RestController
@@ -36,6 +39,7 @@ public class LocationController {
 
         var response = mapper.of(locationUseCase.save(mapper.of(locationRequestDTO),
                 amenityMapper.ofRequest(locationRequestDTO.getAmenities())));
+        response.setAmenities(amenityMapper.of(locationUseCase.findAmenities(response.getId())));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -61,8 +65,10 @@ public class LocationController {
     public ResponseEntity<LocationResponseDTO> updateLocation(
             @PathVariable("id") Long id,
             @RequestBody @Valid LocationRequestDTO requestDTO) {
-
-        return ResponseEntity.status(HttpStatus.OK).body(mapper.of(locationUseCase.update(id, mapper.of(requestDTO))));
+        var response = mapper.of(locationUseCase.update(mapper.of(requestDTO),
+                amenityMapper.ofRequest(requestDTO.getAmenities()), id));
+        response.setAmenities(amenityMapper.of(locationUseCase.findAmenities(response.getId())));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/{id}")
@@ -89,7 +95,7 @@ public class LocationController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping
+    @GetMapping("/search")
     @ApiResponse(description = "Location Response", responseCode = "200")
     @Operation(summary = "Find By Location Name", description = """
           # Busca Localidade por Nome
@@ -99,6 +105,23 @@ public class LocationController {
     public ResponseEntity<List<LocationResponseDTO>> findByNameContains(@RequestParam @Valid String name) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.of(locationUseCase.findByNameContains(name)));
+    }
+
+    @GetMapping("/{id}")
+    @ApiResponse(description = "Location Response", responseCode = "200")
+    @Operation(summary = "Find By Id", description = """
+          # Busca Localidade por ID
+          ---
+          
+          """)
+    public ResponseEntity<LocationResponseDTO> findById(@PathVariable("id") @Valid Long id) {
+        var location = locationUseCase.findById(id);
+        if (location.isPresent()) {
+            var response = mapper.of(location.get());
+            response.setAmenities(amenityMapper.of(locationUseCase.findAmenities(response.getId())));
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        }
+        throw new NotFoundException(format("Location ID %d not found", id));
     }
 
 }

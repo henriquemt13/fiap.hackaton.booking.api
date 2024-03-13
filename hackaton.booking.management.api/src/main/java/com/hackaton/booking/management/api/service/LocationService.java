@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +28,10 @@ public class LocationService {
     }
 
     public Location update(Long id, Location updateLocation) {
-        updateLocation.setId(validateId(id).getId());
+        var currentLocation = validateId(id);
+        updateLocation.setId(currentLocation.getId());
+        updateLocation.setCreatedAt(currentLocation.getCreatedAt());
+        updateLocation.setUpdatedAt(OffsetDateTime.now());
         return repository.save(updateLocation);
     }
 

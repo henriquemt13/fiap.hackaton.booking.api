@@ -1,5 +1,6 @@
 package com.hackaton.booking.management.api.usecase;
 
+import com.hackaton.booking.management.api.domain.model.Bathroom;
 import com.hackaton.booking.management.api.domain.model.Furniture;
 import com.hackaton.booking.management.api.domain.model.Room;
 import com.hackaton.booking.management.api.exceptions.NotFoundException;
@@ -32,7 +33,7 @@ public class RoomUseCase extends RoomService {
         validateIdBuilding(room.getIdBuilding());
         var requestedBathroom = room.getBathroomType();
         if (requestedBathroom != null && bathroomService.findByType(requestedBathroom).isEmpty()) {
-            throw new NotFoundException(format("Bathroom type %s not found", requestedBathroom.name()));
+            throw new NotFoundException(format("Bathroom type %s not found", requestedBathroom));
         }
         var newRoom = super.save(room);
         saveFurniture(furniture, newRoom.getId());
@@ -47,6 +48,21 @@ public class RoomUseCase extends RoomService {
 
     public void deleteFurnitureById(Long id) {
         furnitureService.delete(id);
+    }
+
+    public Bathroom findBathroomByType(String type) {
+        if (type != null) {
+            var optBath = bathroomService.findByType(type);
+            if (optBath.isEmpty()) {
+                throw new NotFoundException(format("Bathroom type %s not found", type));
+            }
+            return optBath.get();
+        }
+        return null;
+    }
+
+    public List<Furniture> findFurnitureByIdRoom(Long idRoom) {
+        return furnitureService.findByIdRoom(idRoom);
     }
 
     @Override

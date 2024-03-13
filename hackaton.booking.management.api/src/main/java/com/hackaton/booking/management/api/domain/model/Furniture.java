@@ -33,7 +33,6 @@ public class Furniture {
     @Column(name = "name")
     private String name;
     @NotNull(message = "quantity should not be null")
-    @NotEmpty(message = "quantity should not be null")
     @Column(name = "quantity")
     private Long quantity;
     @CreationTimestamp

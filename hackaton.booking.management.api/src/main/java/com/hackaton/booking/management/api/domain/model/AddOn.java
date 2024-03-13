@@ -27,9 +27,10 @@ public class AddOn {
     @Column(name = "id", unique = true)
     @NotNull(message = "id should not be null")
     private Long id;
-    @Column(name = "type", unique = true)
+    @Column(name = "type")
     @NotNull(message = "type should not be null")
-    private AddOnTypeEnum type;
+    @NotEmpty(message = "type should not be null")
+    private String type;
     @NotNull(message = "description should not be null")
     @NotEmpty(message = "description should not be null")
     @Column(name = "description")

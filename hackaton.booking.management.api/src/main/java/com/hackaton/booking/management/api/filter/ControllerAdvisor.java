@@ -28,6 +28,12 @@ public class ControllerAdvisor {
                 .body(ex.getMessage());
     }
 
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    public ResponseEntity handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                .body(ex.getMessage());
+//    }
+
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity handleContraintViolationException(ConstraintViolationException ex, WebRequest request) {

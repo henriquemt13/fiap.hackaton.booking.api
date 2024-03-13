@@ -2,6 +2,7 @@ package com.hackaton.booking.management.api.domain.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public class LocationRequestDTO {
     @NotEmpty(message = "street should not be null")
     private String street;
     @NotNull(message = "cep should not be null")
-    @NotEmpty(message = "cep should not be null")
-    private Long cep;
+    @Size(min = 8, max = 8)
+    private String cep;
     @NotNull(message = "city should not be null")
     @NotEmpty(message = "city should not be null")
     private String city;

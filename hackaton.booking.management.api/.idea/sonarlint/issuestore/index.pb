@@ -6,8 +6,6 @@ B
 Dockerfile,6\6\6651ddff6eb82c840ced7c1dddee15c6e1913dd4
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
-E
-parking.meter.api.iml,2\7\270972a6306e43e01b4ccec1996dc1701511773f
 |
 Lsrc/main/java/com/hackaton/booking/management/api/domain/model/Location.java,7\2\7246773158af59498d42597cd981ffb9aa806e28
 {
@@ -36,8 +34,6 @@ Tsrc/main/java/com/hackaton/booking/management/api/controller/LocationController
 Msrc/main/java/com/hackaton/booking/management/api/service/AmenityService.java,7\e\7e6c5c69deebf9c48b03275d4a5b7f1af27b853f
 ~
 Nsrc/main/java/com/hackaton/booking/management/api/service/BathroomService.java,b\b\bb7fe5b683142051ab5ba920097bac79602035e2
-É
-Ssrc/main/java/com/hackaton/booking/management/api/domain/model/BuildingService.java,5\4\54514d47648f88b1de18055f0d51e750e457d4e7
 
 Osrc/main/java/com/hackaton/booking/management/api/service/FurnitureService.java,b\0\b0ce4a8a46fa5421e1fdfc34f5bffb7db2e332de
 z
@@ -102,8 +98,6 @@ _src/main/java/com/hackaton/booking/management/api/domain/dto/response/Furniture
 Ysrc/main/java/com/hackaton/booking/management/api/domain/dto/request/AddOnRequestDTO.java,f\1\f108cd52bc6134f345bcdd88df9c09c1ca0c08bf
 ã
 [src/main/java/com/hackaton/booking/management/api/domain/dto/request/AmenityRequestDTO.java,5\e\5e75321b82cf03afea69d78c119627f9779f7baa
-å
-\src/main/java/com/hackaton/booking/management/api/domain/dto/request/BathroomRequestDTO.java,5\4\547250cb00582ae9e5b0af976e98e6c46ec0fb1e
 ç
 ]src/main/java/com/hackaton/booking/management/api/domain/dto/request/FurnitureRequestDTO.java,c\3\c30b11fabe4109031a0631fd89a16bd08674a25c
 Ñ
@@ -162,3 +156,7 @@ Osrc/test/java/com/hackaton/booking/management/api/fixture/FurnitureFixture.java
 Nsrc/test/java/com/hackaton/booking/management/api/fixture/LocationFixture.java,7\c\7cacd6ac47f15736ce03892d2cd4a6d0ac28a47c
 z
 Jsrc/test/java/com/hackaton/booking/management/api/fixture/RoomFixture.java,7\9\79920273e0e427bf0c403bfcd0ba234755f1ce3b
+y
+Isrc/main/java/com/hackaton/booking/management/api/validator/Document.java,4\e\4e3cfe2689bad8b6b38df439d4332d859286f2d1
+Ç
+Rsrc/main/java/com/hackaton/booking/management/api/validator/DocumentValidator.java,2\5\25c25c2a7d4cf75dad3a1d5d27810baac96ac3ec

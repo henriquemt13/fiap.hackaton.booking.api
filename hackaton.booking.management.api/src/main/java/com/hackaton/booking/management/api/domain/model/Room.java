@@ -31,9 +31,9 @@ public class Room {
     @Column(name = "id_building", unique = true)
     @NotNull(message = "idBuilding should not be null")
     private Long idBuilding;
-    @Column(name = "type", unique = true)
     @NotNull(message = "type should not be null")
-    private RoomTypeEnum type;
+    @NotEmpty(message = "type should not be null")
+    private String type;
     @Column(name = "max_capacity", unique = true)
     @NotNull(message = "maxCapacity should not be null")
     private Long maxCapacity;
@@ -48,7 +48,8 @@ public class Room {
     private BigDecimal totalDailyValue;
     @Column(name = "bathroom_type", unique = true)
     @NotNull(message = "bathroomType should not be null")
-    private BathroomTypeEnum bathroomType;
+    @NotEmpty(message = "type should not be null")
+    private String bathroomType;
     @CreationTimestamp
     @Column(name = "created_at")
     private OffsetDateTime createdAt;

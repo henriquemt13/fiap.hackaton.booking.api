@@ -13,7 +13,8 @@ import java.util.List;
 public class RoomRequestDTO {
 
     @NotNull
-    @NotEmpty
+    private Long idBuilding;
+    @NotNull
     private RoomTypeEnum type;
     @NotNull
     private Long maxCapacity;

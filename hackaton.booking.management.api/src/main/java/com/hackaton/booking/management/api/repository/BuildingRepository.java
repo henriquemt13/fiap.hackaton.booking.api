@@ -3,7 +3,10 @@ package com.hackaton.booking.management.api.repository;
 import com.hackaton.booking.management.api.domain.model.Building;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface BuildingRepository extends JpaRepository<Building, Long> {
 
+    List<Building> findByIdLocation(Long id);
 
 }

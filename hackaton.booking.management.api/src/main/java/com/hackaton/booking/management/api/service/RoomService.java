@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,8 @@ public class RoomService {
     public Room update(Room updateRoom, Long id) {
         var currentRoom = findValidRoom(id);
         updateRoom.setId(currentRoom.getId());
+        updateRoom.setCreatedAt(currentRoom.getCreatedAt());
+        updateRoom.setCreatedAt(OffsetDateTime.now());
         return repository.save(updateRoom);
     }
 
@@ -37,6 +40,10 @@ public class RoomService {
 
     public Optional<Room> findById(Long id) {
         return repository.findById(id);
+    }
+
+    public List<Room> findByIdBuilding(Long id) {
+        return repository.findByIdBuilding(id);
     }
 
     public List<Room> findAll() {

@@ -40,7 +40,7 @@ public class BathroomService {
         return repository.findById(id);
     }
 
-    public Optional<Bathroom> findByType(BathroomTypeEnum type) {
+    public Optional<Bathroom> findByType(String type) {
         return repository.findByType(type);
     }
 

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,8 @@ public class AddOnService {
     public AddOn update(Long id, AddOn updateAddOn) {
         var currentAddOn = validateId(id);
         updateAddOn.setId(currentAddOn.getId());
+        updateAddOn.setCreatedAt(currentAddOn.getCreatedAt());
+        updateAddOn.setUpdatedAt(OffsetDateTime.now());
         return repository.save(updateAddOn);
     }
 

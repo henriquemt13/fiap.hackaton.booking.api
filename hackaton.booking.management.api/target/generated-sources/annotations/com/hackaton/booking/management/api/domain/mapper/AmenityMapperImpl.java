@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-12T20:15:05-0300",
+    date = "2024-03-13T15:33:49-0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17 (Oracle Corporation)"
 )
 @Component
@@ -52,6 +52,12 @@ public class AmenityMapperImpl implements AmenityMapper {
         }
 
         AmenityResponseDTO amenityResponseDTO = new AmenityResponseDTO();
+
+        amenityResponseDTO.setId( amenity.getId() );
+        amenityResponseDTO.setName( amenity.getName() );
+        amenityResponseDTO.setQuantity( amenity.getQuantity() );
+        amenityResponseDTO.setCreatedAt( amenity.getCreatedAt() );
+        amenityResponseDTO.setUpdatedAt( amenity.getUpdatedAt() );
 
         return amenityResponseDTO;
     }

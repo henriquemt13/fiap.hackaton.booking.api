@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-12T20:15:04-0300",
+    date = "2024-03-13T15:33:49-0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17 (Oracle Corporation)"
 )
 @Component
@@ -24,6 +24,10 @@ public class AddOnMapperImpl implements AddOnMapper {
 
         AddOn addOn = new AddOn();
 
+        addOn.setType( getAddOnType( requestDTO.getType() ) );
+        addOn.setDescription( requestDTO.getDescription() );
+        addOn.setTotalValue( requestDTO.getTotalValue() );
+
         return addOn;
     }
 
@@ -34,6 +38,13 @@ public class AddOnMapperImpl implements AddOnMapper {
         }
 
         AddOnResponseDTO addOnResponseDTO = new AddOnResponseDTO();
+
+        addOnResponseDTO.setType( setAddOnType( addOn.getType() ) );
+        addOnResponseDTO.setId( addOn.getId() );
+        addOnResponseDTO.setDescription( addOn.getDescription() );
+        addOnResponseDTO.setTotalValue( addOn.getTotalValue() );
+        addOnResponseDTO.setCreatedAt( addOn.getCreatedAt() );
+        addOnResponseDTO.setUpdatedAt( addOn.getUpdatedAt() );
 
         return addOnResponseDTO;
     }

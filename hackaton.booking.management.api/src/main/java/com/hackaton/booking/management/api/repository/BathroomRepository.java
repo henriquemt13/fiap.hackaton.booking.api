@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface BathroomRepository extends JpaRepository<Bathroom, Long> {
 
-    Optional<Bathroom> findByType(BathroomTypeEnum type);
+    Optional<Bathroom> findByType(String type);
 }

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,11 @@ public class AmenityService {
     }
 
     public List<Amenity> updateAll(List<Amenity> updateAmenities) {
-        updateAmenities.forEach(amenity -> findValidAmenity(amenity.getId()));
+        updateAmenities.forEach(amenity -> {
+            var currentAmenity = findValidAmenity(amenity.getId());
+            amenity.setCreatedAt(currentAmenity.getCreatedAt());
+            amenity.setUpdatedAt(OffsetDateTime.now());
+        });
         return repository.saveAll(updateAmenities);
     }
 
@@ -44,6 +49,10 @@ public class AmenityService {
 
     public List<Amenity> findAll() {
         return repository.findAll();
+    }
+
+    public List<Amenity> findByIdLocation(Long idLocation) {
+        return repository.findByIdLocation(idLocation);
     }
 
     private Amenity findValidAmenity(Long id) {

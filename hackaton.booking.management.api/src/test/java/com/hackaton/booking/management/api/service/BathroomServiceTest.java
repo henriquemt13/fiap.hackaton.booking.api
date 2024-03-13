@@ -73,7 +73,7 @@ class BathroomServiceTest {
             var expectedResponse = Optional.of(BathroomFixture.buildBathroom());
             when(repository.findByType(any())).thenReturn(expectedResponse);
 
-            var bathroom = service.findByType(BathroomTypeEnum.STANDARD);
+            var bathroom = service.findByType(BathroomTypeEnum.STANDARD.name());
 
             verify(repository, times(1)).findByType(any());
             assertEquals(expectedResponse, bathroom);
@@ -84,7 +84,7 @@ class BathroomServiceTest {
         void shouldNotFindByType() {
             when(repository.findByType(any())).thenReturn(Optional.empty());
 
-            var bathroom = service.findByType(BathroomTypeEnum.DELUXE);
+            var bathroom = service.findByType(BathroomTypeEnum.DELUXE.name());
 
             verify(repository, times(1)).findByType(any());
             assertEquals(Optional.empty(), bathroom);

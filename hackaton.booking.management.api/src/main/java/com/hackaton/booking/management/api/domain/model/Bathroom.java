@@ -27,8 +27,8 @@ public class Bathroom {
     @NotNull(message = "id should not be null")
     private Long id;
     @NotNull(message = "type should not be null")
-    @Column(name = "type")
-    private BathroomTypeEnum type;
+    @NotEmpty(message = "type should not be null")
+    private String type;
     @NotNull(message = "description should not be null")
     @NotEmpty(message = "description should not be null")
     @Column(name = "description")

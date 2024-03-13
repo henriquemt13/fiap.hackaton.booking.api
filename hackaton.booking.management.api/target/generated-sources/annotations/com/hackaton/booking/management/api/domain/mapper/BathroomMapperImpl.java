@@ -1,6 +1,5 @@
 package com.hackaton.booking.management.api.domain.mapper;
 
-import com.hackaton.booking.management.api.domain.dto.request.BathroomRequestDTO;
 import com.hackaton.booking.management.api.domain.dto.response.BathroomResponseDTO;
 import com.hackaton.booking.management.api.domain.model.Bathroom;
 import java.util.ArrayList;
@@ -10,22 +9,11 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-12T20:15:04-0300",
+    date = "2024-03-13T15:33:49-0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17 (Oracle Corporation)"
 )
 @Component
 public class BathroomMapperImpl implements BathroomMapper {
-
-    @Override
-    public Bathroom of(BathroomRequestDTO requestDTO) {
-        if ( requestDTO == null ) {
-            return null;
-        }
-
-        Bathroom bathroom = new Bathroom();
-
-        return bathroom;
-    }
 
     @Override
     public BathroomResponseDTO of(Bathroom bathroom) {
@@ -34,6 +22,12 @@ public class BathroomMapperImpl implements BathroomMapper {
         }
 
         BathroomResponseDTO bathroomResponseDTO = new BathroomResponseDTO();
+
+        bathroomResponseDTO.setType( setBathroomType( bathroom.getType() ) );
+        bathroomResponseDTO.setId( bathroom.getId() );
+        bathroomResponseDTO.setDescription( bathroom.getDescription() );
+        bathroomResponseDTO.setCreatedAt( bathroom.getCreatedAt() );
+        bathroomResponseDTO.setUpdatedAt( bathroom.getUpdatedAt() );
 
         return bathroomResponseDTO;
     }

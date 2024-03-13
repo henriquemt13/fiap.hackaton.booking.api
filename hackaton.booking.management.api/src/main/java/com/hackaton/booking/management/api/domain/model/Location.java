@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 @Data
 @AllArgsConstructor
@@ -33,9 +34,8 @@ public class Location {
     @Column(name = "street")
     private String street;
     @NotNull(message = "cep should not be null")
-    @NotEmpty(message = "cep should not be null")
     @Column(name = "cep")
-    private Long cep;
+    private String cep;
     @NotNull(message = "city should not be null")
     @NotEmpty(message = "city should not be null")
     @Column(name = "city")
