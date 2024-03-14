@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import static java.lang.String.format;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/client")
+@Slf4j
 public class ClientController {
 
     private final ClientService clientService;
@@ -30,11 +32,11 @@ public class ClientController {
     @Operation(summary = "Create Client", description = """
           # Registra novo Cliente Usuário
           ---
-          
+                    
           """)
     public ResponseEntity<ClientResponseDTO> createClient(
-            @RequestBody @Valid ClientRequestDTO clientRequestDTO) {
-
+          @RequestBody @Valid ClientRequestDTO clientRequestDTO) {
+        log.info("Creating new Client");
         var response = mapper.of(clientService.save(mapper.ofRequest(clientRequestDTO)));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -44,9 +46,10 @@ public class ClientController {
     @Operation(summary = "Find All Clients", description = """
           # Busca todos os Clientes Usuários
           ---
-          
+                    
           """)
     public ResponseEntity<List<ClientResponseDTO>> getAllClients() {
+        log.info("Find  All Clients");
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.of(clientService.findAll()));
     }
 
@@ -55,9 +58,10 @@ public class ClientController {
     @Operation(summary = "Find Client By Id", description = """
           # Busca Cliente Usuário por Id
           ---
-          
+                    
           """)
     public ResponseEntity<ClientResponseDTO> findById(@PathVariable("id") @Valid Long id) {
+        log.info(format("Searching for Client ID %d", id));
         var optResponse = clientService.findById(id);
         if (optResponse.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(mapper.of(optResponse.get()));
@@ -70,12 +74,13 @@ public class ClientController {
     @Operation(summary = "Update Client By Id", description = """
           # Atualiza Cliente Usuário por Id
           ---
-          
+                    
           """)
     public ResponseEntity<ClientResponseDTO> update(@PathVariable("id") @Valid Long id,
-                                                    @RequestBody @Valid ClientRequestDTO requestDTO) {
+          @RequestBody @Valid ClientRequestDTO requestDTO) {
+        log.info(format("Updating Client ID %d", id));
         return ResponseEntity.status(HttpStatus.OK).body(mapper.of(clientService.update(id,
-                mapper.ofRequest(requestDTO))));
+              mapper.ofRequest(requestDTO))));
     }
 
     @DeleteMapping("/{id}")
@@ -83,9 +88,10 @@ public class ClientController {
     @Operation(summary = "Delete Client By Id", description = """
           # Apaga Cliente Usuário por Id
           ---
-          
+                    
           """)
     public ResponseEntity<ClientResponseDTO> delete(@PathVariable("id") @Valid Long id) {
+        log.info(format("Deleting Client ID %d", id));
         clientService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

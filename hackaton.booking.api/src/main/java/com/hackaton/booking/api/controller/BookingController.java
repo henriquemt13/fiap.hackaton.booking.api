@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import static java.lang.String.format;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/booking")
+@Slf4j
 public class BookingController {
 
     private final BookingUseCase bookingUseCase;
@@ -41,24 +43,28 @@ public class BookingController {
     @GetMapping("/new/search")
     @ApiResponse(description = "Location Response", responseCode = "200")
     @Operation(summary = "Find All Available Places", description = """
-            # Busca todos os Lugares disponívels resultantes do filtros
-            ---
-                      
-            """)
-    public ResponseEntity<List<LocationResponseDTO>> getAllAvailablePlaces(@RequestBody @Valid BookingFilterRequestDTO filterDTO) {
+          # Busca todos os Lugares disponívels resultantes do filtros
+          ---
+                    
+          """)
+    public ResponseEntity<List<LocationResponseDTO>> getAllAvailablePlaces(
+          @RequestBody @Valid BookingFilterRequestDTO filterDTO) {
+        log.info(format("Searching for Available Rooms based on Filter: %s", filterDTO.toString()));
         return ResponseEntity.status(HttpStatus.CREATED).body(findPlaces(filterDTO));
     }
 
     @PostMapping
     @ApiResponse(description = "Booking Response", responseCode = "201")
     @Operation(summary = "Create Booking", description = """
-            # Registra nova Reserva
-            ---
-                      
-            """)
+          # Registra nova Reserva
+          ---
+                    
+          """)
     public ResponseEntity<BookingResponseDTO> createBooking(
-            @RequestBody @Valid BookingRequestDTO bookingRequestDTO) {
-
+          @RequestBody @Valid BookingRequestDTO bookingRequestDTO) {
+        log.info(format("Creating new Booking for Room ID %d, between %s and %s",
+              bookingRequestDTO.getIdRoom(), bookingRequestDTO.getStartDate(),
+              bookingRequestDTO.getEndDate()));
         var response = mapper.of(bookingUseCase.book(mapper.ofRequest(bookingRequestDTO)));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -66,26 +72,29 @@ public class BookingController {
     @GetMapping
     @ApiResponse(description = "Booking Response", responseCode = "201")
     @Operation(summary = "Find All Bookings", description = """
-            # Busca todas as Reservas
-            ---
-                      
-            """)
+          # Busca todas as Reservas
+          ---
+                    
+          """)
     public ResponseEntity<List<BookingResponseDTO>> getAllBookings() {
+        log.info("Find All Bookings");
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.of(bookingUseCase.findAll()));
     }
 
     @GetMapping("/{id}")
     @ApiResponse(description = "Booking Response", responseCode = "200")
     @Operation(summary = "Find Booking By Id", description = """
-            # Busca Reserva por Id
-            ---
-                      
-            """)
+          # Busca Reserva por Id
+          ---
+                    
+          """)
     public ResponseEntity<BookingResponseDTO> findById(@PathVariable("id") @Valid Long id) {
+        log.info(format("Searching for Booking ID %d", id));
         var optResponse = bookingUseCase.findById(id);
         if (optResponse.isPresent()) {
             var response = mapper.of(optResponse.get());
-            response.setAddOns(bookingAddOnMapper.of(bookingUseCase.findAddOnsByIdBooking(response.getId())));
+            response.setAddOns(
+                  bookingAddOnMapper.of(bookingUseCase.findAddOnsByIdBooking(response.getId())));
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
         throw new NotFoundException(format("Booking ID %d not found", id));
@@ -94,52 +103,63 @@ public class BookingController {
     @PutMapping("/{id}")
     @ApiResponse(description = "Booking Response", responseCode = "200")
     @Operation(summary = "Update Booking By Id", description = """
-            # Atualiza Reserva por Id
-            ---
-                      
-            """)
+          # Atualiza Reserva por Id
+          ---
+                    
+          """)
     public ResponseEntity<BookingResponseDTO> update(@PathVariable("id") @Valid Long id,
-                                                     @RequestBody @Valid BookingRequestDTO requestDTO) {
+          @RequestBody @Valid BookingRequestDTO requestDTO) {
+        log.info(format("Updating Booking ID %d", id));
         return ResponseEntity.status(HttpStatus.OK).body(mapper.of(bookingUseCase.update(id,
-                mapper.ofRequest(requestDTO))));
+              mapper.ofRequest(requestDTO))));
     }
 
     @DeleteMapping("/{id}")
     @ApiResponse(description = "Booking Response", responseCode = "200")
     @Operation(summary = "Delete Booking By Id", description = """
-            # Apaga Reserva por Id
-            ---
-                      
-            """)
+          # Apaga Reserva por Id
+          ---
+                    
+          """)
     public ResponseEntity<BookingResponseDTO> delete(@PathVariable("id") @Valid Long id) {
+        log.info(format("Deleting  Booking ID %d", id));
         bookingUseCase.delete(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     private List<LocationResponseDTO> findPlaces(BookingFilterRequestDTO filterDTO) {
-        var locations = locationMapper.of(bookingUseCase.findLocationsByFilter(locationMapper.of(filterDTO)));
-        locations.forEach(location -> location.setBuildings(findBuildingsByLocationId(location.getId(), filterDTO)));
+        var locations = locationMapper.of(
+              bookingUseCase.findLocationsByFilter(locationMapper.of(filterDTO)));
+        locations.forEach(location -> location.setBuildings(
+              findBuildingsByLocationId(location.getId(), filterDTO)));
         locations.removeIf(location -> location.getBuildings().isEmpty());
-        locations.forEach(location -> location.setAmenities(amenityMapper.of(bookingUseCase.findAmenitiesByIdLocation(location.getId()))));
+        locations.forEach(location -> location.setAmenities(
+              amenityMapper.of(bookingUseCase.findAmenitiesByIdLocation(location.getId()))));
         return locations;
     }
 
-    private List<BuildingResponseDTO> findBuildingsByLocationId(Long id, BookingFilterRequestDTO filterDTO) {
+    private List<BuildingResponseDTO> findBuildingsByLocationId(Long id,
+          BookingFilterRequestDTO filterDTO) {
         var buildings = buildingMapper.of(bookingUseCase.findBuildingsByIdLocation(id));
-        buildings.forEach(building -> building.setRooms(findRoomsByFilter(filterDTO, building.getId())));
+        buildings.forEach(
+              building -> building.setRooms(findRoomsByFilter(filterDTO, building.getId())));
         buildings.removeIf(building -> building.getRooms().isEmpty());
         return buildings;
     }
 
-    private List<RoomResponseDTO> findRoomsByFilter(BookingFilterRequestDTO filterDTO, Long idBuilding) {
+    private List<RoomResponseDTO> findRoomsByFilter(BookingFilterRequestDTO filterDTO,
+          Long idBuilding) {
         var roomFilter = roomMapper.of(filterDTO);
         roomFilter.setIdBuilding(idBuilding);
-        var rooms = bookingUseCase.findRoomsByFilter(roomFilter, filterDTO.getStartDate(), filterDTO.getEndDate());
+        var rooms = bookingUseCase.findRoomsByFilter(roomFilter, filterDTO.getStartDate(),
+              filterDTO.getEndDate());
         List<RoomResponseDTO> response = new ArrayList<>();
         rooms.forEach(room -> {
             var responseRoom = roomMapper.of(room);
-            responseRoom.setBathroom(bathroomMapper.of(bookingUseCase.findBathroomByType(room.getBathroomType())));
-            responseRoom.setFurniture(furnitureMapper.of(bookingUseCase.findFurnitureByIdRoom(room.getId())));
+            responseRoom.setBathroom(
+                  bathroomMapper.of(bookingUseCase.findBathroomByType(room.getBathroomType())));
+            responseRoom.setFurniture(
+                  furnitureMapper.of(bookingUseCase.findFurnitureByIdRoom(room.getId())));
             response.add(responseRoom);
         });
         return response;
