@@ -17,7 +17,7 @@ public class BathroomFixture {
     }
 
     public static Bathroom buildBathroom() {
-       return new Bathroom(1L, BathroomTypeEnum.STANDARD, "Test", defaultDate, defaultDate);
+       return new Bathroom(1L, BathroomTypeEnum.STANDARD.name(), "Test", defaultDate, defaultDate);
     }
 
     public static List<Bathroom> buildBathrooms() {

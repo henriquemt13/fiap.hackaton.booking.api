@@ -41,7 +41,7 @@ public class RoomController {
         var response = mapper.of(roomUseCase.save(mapper.of(requestDTO),
                 furnitureMapper.ofRequest(requestDTO.getFurniture())));
         setRoomItems(response, requestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping
@@ -53,7 +53,7 @@ public class RoomController {
             """)
     public ResponseEntity<List<RoomResponseDTO>> getAll() {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.of(roomUseCase.findAll()));
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.of(roomUseCase.findAll()));
     }
 
     @GetMapping("/{id}")
@@ -69,7 +69,7 @@ public class RoomController {
             var response = mapper.of(optRoom.get());
             response.setBathroom(bathroomMapper.of(roomUseCase.findBathroomByType(optRoom.get().getBathroomType())));
             response.setFurniture(furnitureMapper.of(roomUseCase.findFurnitureByIdRoom(response.getId())));
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
         throw new NotFoundException(format("Room ID %d not found", id));
     }

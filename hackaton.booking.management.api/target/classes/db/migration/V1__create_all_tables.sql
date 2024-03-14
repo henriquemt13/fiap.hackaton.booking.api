@@ -109,14 +109,14 @@ create sequence client_seq;
 create table client
 (
     id                   bigint primary key not null DEFAULT nextval('bathroom_seq'),
-    cpf                  int                not null,
-    passport             int                not null,
+    cpf                  varchar(14)        not null,
+    passport             char(6)            not null,
     full_name            varchar(150)       not null,
-    birthday_date        timestamp          not null,
-    nationality          varchar(15),
+    birthday_date        date               not null,
+    nationality          varchar(30),
     home_country_address varchar(150)       not null,
     phone                varchar(30)        not null,
-    email                varchar(150)       not null,
+    email                varchar(150)       not null unique,
     created_at           timestamp          not null,
     updated_at           timestamp
 );
@@ -126,10 +126,17 @@ ALTER SEQUENCE client_seq
 create sequence booking_seq;
 create table booking
 (
-    id         bigint primary key not null DEFAULT nextval('bathroom_seq'),
-    id_room    bigint             not null,
-    created_at timestamp          not null,
-    updated_at timestamp
+    id          bigint primary key not null DEFAULT nextval('bathroom_seq'),
+    id_room     bigint             not null,
+    id_client   bigint             not null,
+    start_date  date               not null,
+    end_date    date               not null,
+    total_value decimal(10, 3),
+    created_at  timestamp          not null,
+    updated_at  timestamp,
+    constraint fk_client
+        foreign key (id_client)
+            references client (id)
 );
 ALTER SEQUENCE booking_seq
     OWNED BY booking.id;

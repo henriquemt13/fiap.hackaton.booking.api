@@ -45,7 +45,7 @@ public class AddOnController {
           """)
     public ResponseEntity<List<AddOnResponseDTO>> getAll() {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.of(service.findAll()));
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.of(service.findAll()));
     }
 
     @PutMapping("/{id}")

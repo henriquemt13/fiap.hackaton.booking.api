@@ -21,7 +21,7 @@ public class AddOnFixture {
     }
 
     public static AddOn buildAddOn() {
-        return new AddOn(1L, AddOnTypeEnum.SERVICE, "Teste", BigDecimal.TEN,
+        return new AddOn(1L, AddOnTypeEnum.SERVICE.name(), "Teste", BigDecimal.TEN,
                 defaultDate, defaultDate);
     }
 }

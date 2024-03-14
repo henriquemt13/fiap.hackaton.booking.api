@@ -51,7 +51,7 @@ public class BuildingController {
           """)
     public ResponseEntity<List<BuildingResponseDTO>> getAll() {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.of(buildingUseCase.findAll()));
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.of(buildingUseCase.findAll()));
     }
 
     @GetMapping("/{id}")
@@ -66,7 +66,7 @@ public class BuildingController {
         if (optBuilding.isPresent()) {
             var response = mapper.of(optBuilding.get());
             response.setRooms(roomMapper.of(buildingUseCase.findRoomsByIdBuilding(response.getId())));
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
         throw new NotFoundException(format("Building ID %d not found", id));
     }

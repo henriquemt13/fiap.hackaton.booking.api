@@ -104,7 +104,7 @@ public class LocationController {
           """)
     public ResponseEntity<List<LocationResponseDTO>> findByNameContains(@RequestParam @Valid String name) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.of(locationUseCase.findByNameContains(name)));
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.of(locationUseCase.findByNameContains(name)));
     }
 
     @GetMapping("/{id}")
@@ -119,7 +119,7 @@ public class LocationController {
         if (location.isPresent()) {
             var response = mapper.of(location.get());
             response.setAmenities(amenityMapper.of(locationUseCase.findAmenities(response.getId())));
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
         throw new NotFoundException(format("Location ID %d not found", id));
     }

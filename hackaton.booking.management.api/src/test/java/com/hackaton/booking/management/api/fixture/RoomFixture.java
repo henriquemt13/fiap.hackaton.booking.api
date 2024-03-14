@@ -19,8 +19,8 @@ public class RoomFixture {
     }
 
     public static Room buildRoom() {
-        return new Room(1L, 1L, RoomTypeEnum.STANDARD, 1L, 1L, 1L, BigDecimal.TEN,
-                BathroomTypeEnum.STANDARD, defaultDate, defaultDate);
+        return new Room(1L, 1L, RoomTypeEnum.STANDARD.name(), 1L, 1L, 1L, BigDecimal.TEN,
+                BathroomTypeEnum.STANDARD.name(), defaultDate, defaultDate);
     }
 
     public static List<Room> buildRooms() {

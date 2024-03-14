@@ -16,7 +16,7 @@ public class LocationFixture {
     }
 
     public static Location buildLocation() {
-        return new Location(1L, "Test", "Test", 1L, "Test", "Test", defaultDate, defaultDate);
+        return new Location(1L, "Test", "Test", "32423434", "Test", "Test", defaultDate, defaultDate);
     }
 
     public static List<Location> buildLocations() {
