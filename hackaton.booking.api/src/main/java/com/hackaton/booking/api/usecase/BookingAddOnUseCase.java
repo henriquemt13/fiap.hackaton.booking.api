@@ -20,7 +20,7 @@ public class BookingAddOnUseCase extends BookingAddOnService {
     private final BookingService bookingService;
 
     public BookingAddOnUseCase(BookingAddOnRepository repository, AddOnService addOnService,
-                               BookingService bookingService) {
+          BookingService bookingService) {
         super(repository);
         this.addOnService = addOnService;
         this.bookingService = bookingService;
@@ -28,6 +28,12 @@ public class BookingAddOnUseCase extends BookingAddOnService {
 
     public List<AddOn> findAllAddOns() {
         return addOnService.findAll();
+    }
+
+    public List<AddOn> findAddOnsByIdBookingAddOn(Long idBooking) {
+        var bookingAddOn = super.findByIdBooking(idBooking);
+        return addOnService.findByIdIn(
+              bookingAddOn.stream().map(BookingAddOn::getIdAddOn).toList());
     }
 
     public BookingAddOn saveAddOn(BookingAddOn bookingAddOn) {
