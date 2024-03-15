@@ -47,6 +47,8 @@ Repository por qualquer outra classe.
 Para gestão de dados foi utilizado o banco de dados relacional **PostgreSQL**
 Segue abaixo modelo relacional:
 
+![image](https://github.com/henriquemt13/fiap.hackaton.booking.api/assets/47531611/7a9d1e04-cc04-4d1d-9d20-1fd0de2a55db)
+
 
 ## Bibliotecas Em Destaque
 
