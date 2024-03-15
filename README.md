@@ -9,7 +9,6 @@ Hackaton Challenge FIAP Fase 5 - Booking API
 - [Bibliotecas em Destaque](#bibliotecas-em-destaque)
 - [Testes Unitários](#testes-unitários)
 - [Plugins da IDE](#plugins-da-ide)
-- [Minhas Percepções](#minhas-percepções)
 
 ### Introdução - Desenvolvimento, Arquitetura e Entidades
 
@@ -82,27 +81,4 @@ sendo muito utilizado para identificar lógicas que poderiam ser refatoradas par
 uma forma mais simples, importações não utilizadas e nomenclaturas incorretas.
 
 
-## Minhas Percepções
-
----
-
-Por fim, acredito que tenha sido um projeto bem desafiador de ser construído,
-foi a minha primeira aplicação com o uso de WebFlux e optei por tocar todo
-o desenvolvimento sozinho, com tempo reduzido, pois tenho uma viagem marcada para
-durante os útlimos dias até a data de entrega do projeto.
-
-Apesar de ser uma adaptação da arquitetura que atualmente utilizo em meu emprego, 
-acredito que a maior dificuldade do projeto tenha sido a configuração das camadas,
-além de chegar as soluções de relacionamento entre as entidades.
-
-Acredito que o interessante desse projeto, no final das contas, foi que da forma que
-ele foi desnevolvido, ainda há um espaço muito amigável para novas implementações,
-melhorias e até mesmo correções.
-
-*Nota: é possível encontrar no vídeo de relatório do projeto neste mesmo repositório compactado em formato .zip. 
-O Vídeo, por sua vez, foi gravado durante os últimos ajustes de código, antes
-de sua finalização, então é possível que um ou outro endpoint esteja mínimamente diferente
-de sua demonstração. Mas em sumo, o vídeo passa o conceito completo por trás da aplicação*
-
-
-*Nota 2: Ao subir a aplicação, é possível acessar seu Swagger, através deste link:* http://localhost:8080/swagger-ui/index.html#/
+*Nota : Ao subir a aplicação, é possível acessar seu Swagger, através deste link:* http://localhost:8080/swagger-ui/index.html#/
