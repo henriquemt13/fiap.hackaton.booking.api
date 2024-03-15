@@ -26,11 +26,15 @@ public class AmenityService {
         repository.saveAll(amenities);
     }
 
-    public List<Amenity> updateAll(List<Amenity> updateAmenities) {
+    public List<Amenity> updateAll(List<Amenity> updateAmenities, Long idLocation) {
         updateAmenities.forEach(amenity -> {
-            var currentAmenity = findValidAmenity(amenity.getId());
-            amenity.setCreatedAt(currentAmenity.getCreatedAt());
-            amenity.setUpdatedAt(OffsetDateTime.now());
+            var currentAmenity =
+                  amenity.getId() != null ? findValidAmenity(amenity.getId()) : null;
+            if (currentAmenity != null) {
+                amenity.setCreatedAt(currentAmenity.getCreatedAt());
+                amenity.setUpdatedAt(OffsetDateTime.now());
+            }
+            amenity.setIdLocation(idLocation);
         });
         return repository.saveAll(updateAmenities);
     }

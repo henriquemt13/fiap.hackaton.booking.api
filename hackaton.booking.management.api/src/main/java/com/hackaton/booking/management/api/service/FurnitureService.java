@@ -26,12 +26,15 @@ public class FurnitureService {
         repository.saveAll(furniture);
     }
 
-    public void updateAll(List<Furniture> updateFurniture) {
+    public void updateAll(List<Furniture> updateFurniture, Long idRoom) {
         updateFurniture.forEach(f -> {
-            var current = findValidFurniture(f.getId());
-            f.setCreatedAt(current.getCreatedAt());
-            f.setUpdatedAt(OffsetDateTime.now());
-            f.setIdRoom(current.getIdRoom());
+            var current = f.getId() != null ? findValidFurniture(f.getId()) : null;
+            if (current != null) {
+                f.setCreatedAt(current.getCreatedAt());
+                f.setUpdatedAt(OffsetDateTime.now());
+                f.setIdRoom(current.getIdRoom());
+            }
+            f.setIdRoom(idRoom);
         });
         repository.saveAll(updateFurniture);
     }

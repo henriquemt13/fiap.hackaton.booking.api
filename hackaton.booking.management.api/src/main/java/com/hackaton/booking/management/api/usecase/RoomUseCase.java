@@ -1,5 +1,7 @@
 package com.hackaton.booking.management.api.usecase;
 
+import static java.lang.String.format;
+
 import com.hackaton.booking.management.api.domain.model.Bathroom;
 import com.hackaton.booking.management.api.domain.model.Furniture;
 import com.hackaton.booking.management.api.domain.model.Room;
@@ -9,12 +11,12 @@ import com.hackaton.booking.management.api.service.BathroomService;
 import com.hackaton.booking.management.api.service.BuildingService;
 import com.hackaton.booking.management.api.service.FurnitureService;
 import com.hackaton.booking.management.api.service.RoomService;
-import org.springframework.stereotype.Component;
 import java.util.List;
-
-import static java.lang.String.format;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class RoomUseCase extends RoomService {
 
     private final BathroomService bathroomService;
@@ -40,10 +42,11 @@ public class RoomUseCase extends RoomService {
         return newRoom;
     }
 
-    public Room update(Room updateRoom, List<Furniture> furniture, Long id) {
+    public Room update(Room updateRoom, List<Furniture> furniture, Long idRoom) {
+        log.info(format("Updating Room ID %d", idRoom));
         validateIdBuilding(updateRoom.getIdBuilding());
-        furnitureService.updateAll(furniture);
-        return super.update(updateRoom, id);
+        furnitureService.updateAll(furniture, idRoom);
+        return super.update(updateRoom, idRoom);
     }
 
     public void deleteFurnitureById(Long id) {

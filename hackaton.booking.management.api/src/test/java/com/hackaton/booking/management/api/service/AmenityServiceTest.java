@@ -98,7 +98,7 @@ class AmenityServiceTest {
             when(repository.findById(anyLong())).thenReturn(Optional.of(AmenityFixture.buildAmenity()));
             when(repository.saveAll(any())).thenReturn(List.of(updateResponse));
 
-            var amenities = service.updateAll(List.of(updateResponse));
+            var amenities = service.updateAll(List.of(updateResponse), 1L);
 
             verify(repository, times(1)).saveAll(any());
             verify(repository, times(1)).findById(anyLong());
@@ -113,7 +113,7 @@ class AmenityServiceTest {
 
             when(repository.findById(anyLong())).thenReturn(Optional.empty());
 
-            assertThrows(NotFoundException.class, () -> service.updateAll(List.of(updateResponse)));
+            assertThrows(NotFoundException.class, () -> service.updateAll(List.of(updateResponse), 1L));
         }
 
     }

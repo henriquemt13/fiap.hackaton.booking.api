@@ -174,14 +174,27 @@ insert into add_on (id, type, description, total_value, created_at)
 values (4, 'ITEM', 'Manicure', 80.00, now());
 
 insert into location (id, name, street, cep, city, state, created_at)
-values (1, 'Polo 1', 'Rua X', '04296224', 'São Paulo', 'São Paulo', now());
+values (1, 'Hotel A', 'Rua X', '04296224', 'São Paulo', 'São Paulo', now());
+insert into location (id, name, street, cep, city, state, created_at)
+values (2, 'Hotel B', 'Rua X', '42568317', 'Belo Horizonte', 'Minas Gerais', now());
 insert into building (id, id_location, name, created_at)
 values (1, 1, 'Prédio A', now());
 insert into building (id, id_location, name, created_at)
 values (2, 1, 'Prédio B', now());
+insert into building (id, id_location, name, created_at)
+values (3, 2, 'Prédio C', now());
+
 insert into room (id, id_building, type, max_capacity, total_beds, total_rooms, total_daily_value,
                   bathroom_type, created_at)
 values (1, 1, 'STANDARD', 2, 2, 5, 100.00, 'STANDARD', now());
+
+insert into room (id, id_building, type, max_capacity, total_beds, total_rooms, total_daily_value,
+                  bathroom_type, created_at)
+values (2, 1, 'STANDARD', 6, 4, 15, 500.00, 'STANDARD', now());
+
+insert into room (id, id_building, type, max_capacity, total_beds, total_rooms, total_daily_value,
+                  bathroom_type, created_at)
+values (3, 3, 'DELUXE', 5, 3, 10, 400.00, 'DELUXE', now());
 
 insert into amenity (id, id_location, name, quantity, created_at)
 values (1, 1, 'Quadra de Futebol', 1, now());
@@ -190,8 +203,8 @@ values (1, 1, 'TV de 50 polegdas', 1, now());
 
 SELECT setval('add_on_seq', 4, true);
 SELECT setval('bathroom_seq', 2, true);
-SELECT setval('location_seq', 1, true);
+SELECT setval('location_seq', 2, true);
 SELECT setval('building_seq', 2, true);
-SELECT setval('room_seq', 1, true);
+SELECT setval('room_seq', 3, true);
 SELECT setval('amenity_seq', 1, true);
 SELECT setval('furniture_seq', 1, true);

@@ -97,7 +97,7 @@ class FurnitureServiceTest {
             when(repository.findById(anyLong())).thenReturn(Optional.of(FurnitureFixture.buildFurniture()));
             when(repository.saveAll(any())).thenReturn(List.of(updateResponse));
 
-            assertDoesNotThrow(() -> service.updateAll(List.of(updateResponse)));
+            assertDoesNotThrow(() -> service.updateAll(List.of(updateResponse), 1L));
         }
 
         @Test
@@ -108,7 +108,7 @@ class FurnitureServiceTest {
 
             when(repository.findById(anyLong())).thenReturn(Optional.empty());
 
-            assertThrows(NotFoundException.class, () -> service.updateAll(List.of(updateResponse)));
+            assertThrows(NotFoundException.class, () -> service.updateAll(List.of(updateResponse), 1L));
         }
 
     }

@@ -6,6 +6,7 @@ import com.hackaton.booking.api.domain.dto.response.BookingResponseDTO;
 import com.hackaton.booking.api.domain.dto.response.BuildingResponseDTO;
 import com.hackaton.booking.api.domain.dto.response.LocationResponseDTO;
 import com.hackaton.booking.api.domain.dto.response.RoomResponseDTO;
+import com.hackaton.booking.api.domain.enums.BathroomTypeEnum;
 import com.hackaton.booking.api.domain.mapper.*;
 import com.hackaton.booking.api.exceptions.NotFoundException;
 import com.hackaton.booking.api.usecase.BookingAddOnUseCase;
@@ -35,14 +36,7 @@ public class BookingController {
     private final BookingAddOnUseCase bookingAddOnUseCase;
 
     private final BookingMapper mapper;
-    private final LocationMapper locationMapper;
-    private final RoomMapper roomMapper;
-    private final BuildingMapper buildingMapper;
-    private final AmenityMapper amenityMapper;
-    private final BathroomMapper bathroomMapper;
-    private final FurnitureMapper furnitureMapper;
     private final BookingAddOnMapper bookingAddOnMapper;
-    private final AddOnMapper addOnMapper;
 
     @GetMapping("/new/search")
     @ApiResponse(description = "Location Response", responseCode = "200")
@@ -139,44 +133,58 @@ public class BookingController {
           ---
                     
           """)
-    public ResponseEntity<BookingResponseDTO> finishBookingById(@PathVariable("id") @Valid Long id) throws MessagingException {
+    public ResponseEntity<BookingResponseDTO> finishBookingById(@PathVariable("id") @Valid Long id)
+          throws MessagingException {
         log.info(format("Finish  Booking ID %d", id));
+        bookingUseCase.finishBooking(id, validateAndSetResponseByBookingId(id));
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    private LocationResponseDTO validateAndSetResponseByBookingId(Long id) {
         var booking = bookingUseCase.findBookingById(id);
         var room = bookingUseCase.findRoomById(booking.getIdRoom());
         var building = bookingUseCase.findBuildingById(room.getIdBuilding());
-        var location = bookingUseCase.findLocationById(building.getIdLocation());
+        var locationResponse = mapper.ofLocation(
+              bookingUseCase.findLocationById(building.getIdLocation()));
+        buildLocationResponseValues(locationResponse, mapper.ofRoom(room),
+              mapper.ofBuilding(building), mapper.of(booking), room.getBathroomType());
 
-        var roomResponse = roomMapper.of(room);
-        roomResponse.setFurniture(furnitureMapper.of(bookingUseCase.findFurnitureByIdRoom(roomResponse.getId())));
-        roomResponse.setBathroom(bathroomMapper.of(bookingUseCase.findBathroomByType(room.getBathroomType())));
-        var buildingResponse = buildingMapper.of(building);
+        return locationResponse;
+    }
+
+    private void buildLocationResponseValues(LocationResponseDTO locationResponse,
+          RoomResponseDTO roomResponse, BuildingResponseDTO buildingResponse,
+          BookingResponseDTO bookingResponse, String bathroomType) {
+
+        roomResponse.setFurniture(
+              mapper.ofFurniture(bookingUseCase.findFurnitureByIdRoom(roomResponse.getId())));
+        roomResponse.setBathroom(
+              mapper.ofBathRoom(bookingUseCase.findBathroomByType(bathroomType)));
         buildingResponse.setRooms(List.of(roomResponse));
-        var locationResponse = locationMapper.of(location);
-        locationResponse.setAmenities(amenityMapper.of(bookingUseCase.findAmenitiesByIdLocation(locationResponse.getId())));
+        locationResponse.setAmenities(
+              mapper.ofAmenity(bookingUseCase.findAmenitiesByIdLocation(locationResponse.getId())));
         locationResponse.setBuildings(List.of(buildingResponse));
-        locationResponse.setBooking(mapper.of(booking));
-        locationResponse.setAddOns(addOnMapper.of(bookingAddOnUseCase.findAddOnsByIdBookingAddOn(locationResponse.getBooking().getId())));
-
-        bookingUseCase.finishBooking(id, locationResponse);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        locationResponse.setBooking(bookingResponse);
+        locationResponse.setAddOns(mapper.ofAddOn(bookingAddOnUseCase.findAddOnsByIdBookingAddOn(
+              locationResponse.getBooking().getId())));
     }
 
 
     private List<LocationResponseDTO> findPlaces(BookingFilterRequestDTO filterDTO) {
-        var locations = locationMapper.of(
-              bookingUseCase.findLocationsByFilter(locationMapper.of(filterDTO)));
+        var locations = mapper.ofLocation(
+              bookingUseCase.findLocationsByFilter(mapper.ofLocationRequest(filterDTO)));
         locations.forEach(location -> location.setBuildings(
               findBuildingsByLocationId(location.getId(), filterDTO)));
         locations.removeIf(location -> location.getBuildings().isEmpty());
         locations.forEach(location -> location.setAmenities(
-              amenityMapper.of(bookingUseCase.findAmenitiesByIdLocation(location.getId()))));
+              mapper.ofAmenity(bookingUseCase.findAmenitiesByIdLocation(location.getId()))));
         return locations;
     }
 
 
     private List<BuildingResponseDTO> findBuildingsByLocationId(Long id,
           BookingFilterRequestDTO filterDTO) {
-        var buildings = buildingMapper.of(bookingUseCase.findBuildingsByIdLocation(id));
+        var buildings = mapper.ofBuilding(bookingUseCase.findBuildingsByIdLocation(id));
         buildings.forEach(
               building -> building.setRooms(findRoomsByFilter(filterDTO, building.getId())));
         buildings.removeIf(building -> building.getRooms().isEmpty());
@@ -185,17 +193,17 @@ public class BookingController {
 
     private List<RoomResponseDTO> findRoomsByFilter(BookingFilterRequestDTO filterDTO,
           Long idBuilding) {
-        var roomFilter = roomMapper.of(filterDTO);
+        var roomFilter = mapper.ofRoomRequest(filterDTO);
         roomFilter.setIdBuilding(idBuilding);
         var rooms = bookingUseCase.findRoomsByFilter(roomFilter, filterDTO.getStartDate(),
               filterDTO.getEndDate());
         List<RoomResponseDTO> response = new ArrayList<>();
         rooms.forEach(room -> {
-            var responseRoom = roomMapper.of(room);
+            var responseRoom = mapper.ofRoom(room);
             responseRoom.setBathroom(
-                  bathroomMapper.of(bookingUseCase.findBathroomByType(room.getBathroomType())));
+                  mapper.ofBathRoom(bookingUseCase.findBathroomByType(room.getBathroomType())));
             responseRoom.setFurniture(
-                  furnitureMapper.of(bookingUseCase.findFurnitureByIdRoom(room.getId())));
+                  mapper.ofFurniture(bookingUseCase.findFurnitureByIdRoom(room.getId())));
             response.add(responseRoom);
         });
         return response;

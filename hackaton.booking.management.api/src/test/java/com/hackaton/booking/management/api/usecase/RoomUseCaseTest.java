@@ -90,15 +90,15 @@ class RoomUseCaseTest {
             updateResponse.setTotalRooms(3L);
 
             when(buildingService.findById(anyLong())).thenReturn(Optional.of(BuildingFixture.buildBuilding()));
-            doNothing().when(furnitureService).updateAll(FurnitureFixture.buildFurnitures());
+            doNothing().when(furnitureService).updateAll(FurnitureFixture.buildFurnitures(), 1L);
             when(repository.findById(anyLong())).thenReturn(Optional.of(RoomFixture.buildRoom()));
             when(repository.save(any())).thenReturn(updateResponse);
 
-            var rooms = roomUseCase.update(updateResponse, FurnitureFixture.buildFurnitures(), 1L);
+            var rooms = roomUseCase.update(updateResponse, FurnitureFixture.buildFurnitures());
 
             verify(repository, times(1)).save(any());
             verify(buildingService, times(1)).findById(anyLong());
-            verify(furnitureService, times(1)).updateAll(any());
+            verify(furnitureService, times(1)).updateAll(any(), anyLong());
             assertEquals(updateResponse, rooms);
         }
 
@@ -111,7 +111,7 @@ class RoomUseCaseTest {
             when(buildingService.findById(anyLong())).thenReturn(Optional.empty());
 
             assertThrows(NotFoundException.class, () -> roomUseCase.update(updateResponse,
-                    FurnitureFixture.buildFurnitures(), 1L));
+                    FurnitureFixture.buildFurnitures()));
         }
 
     }

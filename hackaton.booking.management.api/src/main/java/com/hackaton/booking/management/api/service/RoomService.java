@@ -26,8 +26,8 @@ public class RoomService {
         return repository.save(room);
     }
 
-    public Room update(Room updateRoom, Long id) {
-        var currentRoom = findValidRoom(id);
+    public Room update(Room updateRoom, Long idRoom) {
+        var currentRoom = findValidRoom(idRoom);
         updateRoom.setId(currentRoom.getId());
         updateRoom.setCreatedAt(currentRoom.getCreatedAt());
         updateRoom.setCreatedAt(OffsetDateTime.now());

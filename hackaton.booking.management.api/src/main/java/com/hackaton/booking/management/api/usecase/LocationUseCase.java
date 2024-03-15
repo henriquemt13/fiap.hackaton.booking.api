@@ -32,7 +32,7 @@ public class LocationUseCase extends LocationService {
 
     public Location update(Location location, List<Amenity> amenities, Long id) {
         amenities.forEach(amenity -> amenity.setIdLocation(id));
-        amenityService.updateAll(amenities);
+        amenityService.updateAll(amenities, id);
         return super.update(id, location);
     }
 

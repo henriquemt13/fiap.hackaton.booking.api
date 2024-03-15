@@ -19,7 +19,8 @@ public final class MailBuilder {
 
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setDefaultEncoding("utf-8");
-        mailSender.setHost("smtp-mail.outlook.com");
+        //mailSender.setHost("smtp-mail.outlook.com");
+        mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
         mailSender.setUsername(mailDTO.getFrom());
         mailSender.setPassword(mailDTO.getPassword());
@@ -27,7 +28,7 @@ public final class MailBuilder {
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "false");
+        props.put("mail.debug", "true");
         return mailSender;
     }
 
