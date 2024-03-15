@@ -1,7 +1,16 @@
 # fiap.hackaton.booking.api
 
+```
 Hackaton Challenge FIAP Fase 5 - Booking API
 
+Abaixo se encontra a documentação e relatório técnico do projeto
+criado para o Hackaton da Fase 5 do curso de Arquitetura e
+Desenvolvimento em Java da Pós Tech FIAP
+
+Este projeto foi desenvolvido por:
+
+Henrqiue Estevam de Matos
+```
 ## Relatório Técnico
 
 ---
