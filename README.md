@@ -9,6 +9,7 @@ Hackaton Challenge FIAP Fase 5 - Booking API
 - [Bibliotecas em Destaque](#bibliotecas-em-destaque)
 - [Testes Unitários](#testes-unitários)
 - [Plugins da IDE](#plugins-da-ide)
+- [Como Subir a Aplicação](#como-subir-a-aplicação)
 
 ### Introdução - Desenvolvimento, Arquitetura e Entidades
 
@@ -82,5 +83,19 @@ O SonarLint foi um ótimo companheiro de desenvolvimento para esse projeto,
 sendo muito utilizado para identificar lógicas que poderiam ser refatoradas para
 uma forma mais simples, importações não utilizadas e nomenclaturas incorretas.
 
+## Como Subir a Aplicação
 
-*Nota : Ao subir a aplicação, é possível acessar seu Swagger, através deste link:* http://localhost:8080/swagger-ui/index.html#/
+---
+Requisitos: Docker instalado no sistema operacional
+
+Ao Clonar o projeto para seu diretório local, execute o comando:
+```
+docker compose up
+
+```
+
+A partir desse momento, a imagem do banco de dados PostgreSQL e dos dois microsserviços será criada.
+Ao finalizar este processo as APIS Booking Management API e Booking API subirão 
+nas portas 8080 e 8081, respectivamente.
+
+*Nota : Ao subir a aplicação, é possível acessar seus Swaggers, através dos links:* http://localhost:8080/swagger-ui/index.html#/ e http://localhost:8081/swagger-ui/index.html#/
