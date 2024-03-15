@@ -1,0 +1,28 @@
+<meta charset="UTF-8">
+
+<p>Olá <b th:utext="${clientName}"></b></p>
+<br>
+<p>Abaixo segue o resumo de sua reserva. Obrigado por utilizar nossa plataforma!</p>
+
+<p><strong>Data Início:</strong> <span th:utext="${startDate}"></span></p>
+<p><strong>Data Fim:</strong> <span th:utext="${endDate}"></span></p>
+<p><strong>Nome do Hotel:</strong> <span th:utext="${locationName}"></span></p>
+<p><strong>Rua:</strong> <span th:utext="${locationStreet}"></span></p>
+<p><strong>Cep:</strong> <span th:utext="${locationCep}"></span></p>
+<p><strong>Cidade:</strong> <span th:utext="${locationCity}"></span></p>
+<p><strong>Estado:</strong> <span th:utext="${locationState}"></span></p>
+<p><strong>Amenidades:</strong></p>
+<li th:each=" amenity : ${amenities}" th:text="${amenity.getName()} + ' (' + ${amenity.getQuantity()} + 'x)'"></li>
+<p><strong>Nome do Prédio:</strong> <span th:utext="${buildingName}"></span></p>
+<p><strong>Tipo do Quarto:</strong> <span th:utext="${roomType}"></span></p>
+<p><strong>Capacidade Máxima:</strong> <span th:utext="${roomMaxCapacity}"></span></p>
+<p><strong>Total de Camas:</strong> <span th:utext="${roomTotalBeds}"></span></p>
+<p><strong>Tipo Banheiro:</strong> <span th:utext="${bathroomType}"></span></p>
+<p><strong>Descrição Banheiro:</strong> <span th:utext="${bathroomDescription}"></span></p>
+<p><strong>Mobília:</strong></p>
+<li th:each=" furniture : ${furnitures}" th:text="${furniture.getName()} + ' (' + ${furniture.getQuantity()} + 'x)'"></li>
+<p><strong>Diária:</strong> R$<span th:utext="${roomTotalDailyValue}"></span></p>
+<p><strong>Serviços Adicionais:</strong></p>
+<li th:each=" a : ${addOns}" th:text="${a.getDescription()} + ' (R$' + ${a.getTotalValue().setScale(2).toString().replace('.', ',')} + ')'"></li>
+<p><strong>Valor Total:</strong> R$<span th:utext="${totalValue}"></span></p>
+
