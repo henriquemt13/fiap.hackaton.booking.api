@@ -24,6 +24,9 @@ public class ClientService {
     private final String DEFAULT_NATIONALITY = "Brasil";
 
     public Client save(Client client) {
+        if (findByEmail(client.getEmail()).isPresent()) {
+            throw new BadRequestException("Email Already Registered");
+        }
         if (client.getNationality().equals(DEFAULT_NATIONALITY) && client.getPassport() == null) {
             throw new BadRequestException("Nationality is Mandatory for Foreigners");
         }
@@ -43,6 +46,10 @@ public class ClientService {
 
     public Optional<Client> findById(Long id) {
         return repository.findById(id);
+    }
+
+    public Optional<Client> findByEmail(String email) {
+        return repository.findByEmail(email);
     }
 
     public List<Client> findAll() {

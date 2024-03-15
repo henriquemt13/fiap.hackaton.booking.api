@@ -24,6 +24,10 @@ public class AddOnService {
         return repository.findById(id);
     }
 
+    public List<AddOn> findByIdIn(List<Long> ids) {
+        return repository.findByIdIn(ids);
+    }
+
     public List<AddOn> findAll() {
         return repository.findAll();
     }

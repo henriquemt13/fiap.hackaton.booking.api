@@ -1,20 +1,22 @@
 package com.hackaton.booking.api.usecase;
 
+import com.hackaton.booking.api.domain.dto.response.LocationResponseDTO;
 import com.hackaton.booking.api.domain.model.*;
 import com.hackaton.booking.api.exceptions.BadRequestException;
 import com.hackaton.booking.api.exceptions.NotFoundException;
 import com.hackaton.booking.api.repository.BookingRepository;
 import com.hackaton.booking.api.service.BookingService;
 import com.hackaton.booking.api.service.ClientService;
-import java.math.BigDecimal;
-import java.time.Duration;
+import com.hackaton.booking.api.service.MailService;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static java.lang.String.format;
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Component
 public class BookingUseCase extends BookingService {
@@ -23,17 +25,19 @@ public class BookingUseCase extends BookingService {
     private final BuildingUseCase buildingUseCase;
     private final RoomUseCase roomUseCase;
     private final ClientService clientService;
+    private final MailService mailService;
 
     private final BookingAddOnUseCase bookingAddOnUseCase;
 
     public BookingUseCase(BookingRepository repository, LocationUseCase locationUseCase,
-          BuildingUseCase buildingUseCase, RoomUseCase roomUseCase, ClientService clientService,
-          BookingAddOnUseCase bookingAddOnUseCase) {
+                          BuildingUseCase buildingUseCase, RoomUseCase roomUseCase, ClientService clientService,
+                          MailService mailService, BookingAddOnUseCase bookingAddOnUseCase) {
         super(repository);
         this.locationUseCase = locationUseCase;
         this.buildingUseCase = buildingUseCase;
         this.roomUseCase = roomUseCase;
         this.clientService = clientService;
+        this.mailService = mailService;
         this.bookingAddOnUseCase = bookingAddOnUseCase;
     }
 
@@ -69,13 +73,12 @@ public class BookingUseCase extends BookingService {
 
     public List<Room> findRoomsByFilter(Room filter, LocalDate startDate, LocalDate endDate) {
         var rooms = roomUseCase.findAll(filter);
+
         for (Room room : rooms) {
             var alreadyBookedRooms = super.findByFilter(room.getId(), startDate, endDate);
-            if (alreadyBookedRooms.size() > room.getTotalRooms()) {
-                rooms.remove(room);
-            }
             room.setTotalRooms(room.getTotalRooms() - alreadyBookedRooms.size());
         }
+        rooms.removeIf(room -> room.getTotalRooms() < 1);
         return rooms;
     }
 
@@ -95,9 +98,11 @@ public class BookingUseCase extends BookingService {
         return bookingAddOnUseCase.findByIdBooking(idBooking);
     }
 
-    public Booking finishBooking(Long id) {
+    public Booking finishBooking(Long id, LocationResponseDTO responseDTO) throws MessagingException {
         var booking = findBookingById(id);
         booking.setTotalValue(getTotalBookingValue(booking));
+        responseDTO.getBooking().setTotalValue(booking.getTotalValue());
+        mailService.sendMail(responseDTO, booking.getIdClient());
         return super.save(booking);
     }
 
@@ -107,7 +112,7 @@ public class BookingUseCase extends BookingService {
               BigDecimal::add);
         var selectedRoom = findRoomById(booking.getIdRoom());
         return selectedRoom.getTotalDailyValue().multiply(BigDecimal.valueOf(
-                    Duration.between(booking.getStartDate(), booking.getEndDate()).toDays()))
+                    ChronoUnit.DAYS.between(booking.getStartDate(), booking.getEndDate())))
               .add(totalAddOnsValue.orElse(BigDecimal.ZERO));
     }
 
@@ -117,7 +122,7 @@ public class BookingUseCase extends BookingService {
         super.delete(id);
     }
 
-    private Room findRoomById(Long id) {
+    public Room findRoomById(Long id) {
         var optRoom = roomUseCase.findById(id);
         if (optRoom.isEmpty()) {
             throw new NotFoundException(format("Room Id %d not found", id));
@@ -125,11 +130,27 @@ public class BookingUseCase extends BookingService {
         return optRoom.get();
     }
 
-    private Booking findBookingById(Long id) {
+    public Booking findBookingById(Long id) {
         var optBooking = super.findById(id);
         if (optBooking.isEmpty()) {
             throw new NotFoundException(format("Booking ID %d not found", id));
         }
         return optBooking.get();
+    }
+
+    public Location findLocationById(Long id) {
+        var optLocation = locationUseCase.findById(id);
+        if (optLocation.isEmpty()) {
+            throw new NotFoundException(format("Location ID %d not found", id));
+        }
+        return optLocation.get();
+    }
+
+    public Building findBuildingById(Long id) {
+        var optBuilding = buildingUseCase.findById(id);
+        if (optBuilding.isEmpty()) {
+            throw new NotFoundException(format("Building ID %d not found", id));
+        }
+        return optBuilding.get();
     }
 }

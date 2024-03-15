@@ -2,6 +2,7 @@ package com.hackaton.booking.api.domain.dto.response;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -16,6 +17,8 @@ public class LocationResponseDTO {
     private String state;
     private List<AmenityResponseDTO> amenities;
     private List<BuildingResponseDTO> buildings;
+    private List<AddOnResponseDTO> addOns;
+    private BookingResponseDTO booking;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
 }

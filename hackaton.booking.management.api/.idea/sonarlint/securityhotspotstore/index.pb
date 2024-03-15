@@ -132,14 +132,6 @@ Rsrc/test/java/com/hackaton/booking/management/api/service/BathroomServiceTest.j
 Qsrc/test/java/com/hackaton/booking/management/api/service/AmenityServiceTest.java,4\d\4d1d1147e49dc221bfe7b23f33405a25a9866466
 
 Osrc/test/java/com/hackaton/booking/management/api/service/AddOnServiceTest.java,1\c\1cb27041cbd86b007ed0d5794cfac66ac3e4d8a2
-„
-Tsrc/test/java/com/hackaton/booking/management/api/controller/RoomControllerTest.java,a\6\a675b07d8dd7e3de247c4d3fd894918cdc728aaf
-ˆ
-Xsrc/test/java/com/hackaton/booking/management/api/controller/LocationControllerTest.java,5\d\5db599cb9a8a15840566af5a4f12cb16769dbeda
-ˆ
-Xsrc/test/java/com/hackaton/booking/management/api/controller/BuildingControllerTest.java,6\6\663ca522d1b692077cd6f81de23f6d9d62ec68e5
-…
-Usrc/test/java/com/hackaton/booking/management/api/controller/AddOnControllerTest.java,6\b\6b3aee7577f53ae508963e50aa77aecb11c4a06f
 {
 Ksrc/test/java/com/hackaton/booking/management/api/fixture/AddOnFixture.java,4\1\41ff687c55a582124e244cc005b5bf0522466465
 
@@ -156,7 +148,3 @@ Osrc/test/java/com/hackaton/booking/management/api/fixture/FurnitureFixture.java
 Nsrc/test/java/com/hackaton/booking/management/api/fixture/LocationFixture.java,7\c\7cacd6ac47f15736ce03892d2cd4a6d0ac28a47c
 z
 Jsrc/test/java/com/hackaton/booking/management/api/fixture/RoomFixture.java,7\9\79920273e0e427bf0c403bfcd0ba234755f1ce3b
-y
-Isrc/main/java/com/hackaton/booking/management/api/validator/Document.java,4\e\4e3cfe2689bad8b6b38df439d4332d859286f2d1
-‚
-Rsrc/main/java/com/hackaton/booking/management/api/validator/DocumentValidator.java,2\5\25c25c2a7d4cf75dad3a1d5d27810baac96ac3ec

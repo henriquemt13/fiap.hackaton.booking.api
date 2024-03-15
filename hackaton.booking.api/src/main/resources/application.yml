@@ -1,5 +1,6 @@
 server:
   port: 8081
+
 spring:
   jpa:
     database: POSTGRESQL
@@ -23,3 +24,8 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant-path-matcher
+mail:
+  properties:
+    from: ${EMAIL_USER}
+    password: ${EMAIL_PASSWORD}
+    subject: "Nova Reserva"
