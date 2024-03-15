@@ -22,8 +22,6 @@ Csrc/main/java/com/hackaton/booking/api/usecase/LocationUseCase.java,9\4\949745
 Qsrc/main/java/com/hackaton/booking/api/specification/SearchRoomSpecification.java,f\5\f523008b29fd32362f649a7b3868262f33892ad0
 o
 ?src/main/java/com/hackaton/booking/api/usecase/RoomUseCase.java,b\6\b68f903d7aac7de2faa2221486f500a82d03b3eb
-o
-?src/main/java/com/hackaton/booking/api/service/RoomService.java,b\0\b0940b84f774aff779202b4beffae446a350bfe1
 Ä
 Psrc/main/java/com/hackaton/booking/api/domain/dto/request/BookingRequestDTO.java,0\8\0877ce2fef9aa4bab464b98a0835e6578cff8925
 Å

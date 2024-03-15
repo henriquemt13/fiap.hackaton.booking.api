@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import org.springframework.data.jpa.domain.Specification;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -36,11 +37,11 @@ class LocationServiceTest {
         @DisplayName("1.1 Should find All Locations")
         void shouldFindAll() {
             var expectedResponse = LocationFixture.buildLocations();
-            when(repository.findAll()).thenReturn(expectedResponse);
+            when(repository.findAll(any(Specification.class))).thenReturn(expectedResponse);
 
-            var locations = service.findAll(new LocationRequestDTO());
+            var locations = service.findAll(LocationFixture.buildLocation());
 
-            verify(repository, times(1)).findAll();
+            verify(repository, times(1)).findAll(any(Specification.class));
             assertEquals(expectedResponse, locations);
         }
 

@@ -94,7 +94,7 @@ class RoomUseCaseTest {
             when(repository.findById(anyLong())).thenReturn(Optional.of(RoomFixture.buildRoom()));
             when(repository.save(any())).thenReturn(updateResponse);
 
-            var rooms = roomUseCase.update(updateResponse, FurnitureFixture.buildFurnitures());
+            var rooms = roomUseCase.update(updateResponse, FurnitureFixture.buildFurnitures(), 1L);
 
             verify(repository, times(1)).save(any());
             verify(buildingService, times(1)).findById(anyLong());
@@ -111,7 +111,7 @@ class RoomUseCaseTest {
             when(buildingService.findById(anyLong())).thenReturn(Optional.empty());
 
             assertThrows(NotFoundException.class, () -> roomUseCase.update(updateResponse,
-                    FurnitureFixture.buildFurnitures()));
+                    FurnitureFixture.buildFurnitures(), 1L));
         }
 
     }

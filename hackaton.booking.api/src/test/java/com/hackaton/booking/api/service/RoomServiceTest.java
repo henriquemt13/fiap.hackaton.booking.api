@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import org.springframework.data.jpa.domain.Specification;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,11 +35,11 @@ class RoomServiceTest {
         @DisplayName("1.1 Should find All Rooms")
         void shouldFindAll() {
             var expectedResponse = RoomFixture.buildRooms();
-            when(repository.findAll()).thenReturn(expectedResponse);
+            when(repository.findAll(any(Specification.class))).thenReturn(expectedResponse);
 
-            var rooms = service.findAll();
+            var rooms = service.findAll(RoomFixture.buildRoom());
 
-            verify(repository, times(1)).findAll();
+            verify(repository, times(1)).findAll(any(Specification.class));
             assertEquals(expectedResponse, rooms);
         }
 

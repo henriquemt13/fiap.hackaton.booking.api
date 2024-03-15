@@ -93,16 +93,6 @@ Psrc/main/java/com/hackaton/booking/management/api/domain/enums/RoomTypeEnum.jav
 {
 Ksrc/main/java/com/hackaton/booking/management/api/service/AddOnService.java,3\0\302f33344383f88b98e46f17498a3059effe63a2
 ‚
-Rsrc/test/java/com/hackaton/booking/management/api/usecase/BuildingUseCaseTest.java,a\8\a8b07d005d3450f73ab61a2937a94b9ab8446cdf
-‚
-Rsrc/test/java/com/hackaton/booking/management/api/usecase/LocationUseCaseTest.java,1\1\11dcbb1cb2c44c128d29b03a2bab56f0868c4faa
-~
-Nsrc/test/java/com/hackaton/booking/management/api/service/RoomServiceTest.java,f\7\f7d77546190c4d3acc96f2b162e0bd6ed17f06ef
-‚
-Rsrc/test/java/com/hackaton/booking/management/api/service/LocationServiceTest.java,e\c\ec4c1b06e2daf8bf72b2c7024ce50e0dd402aea6
-ƒ
-Ssrc/test/java/com/hackaton/booking/management/api/service/FurnitureServiceTest.java,2\9\29bcfbedf1714cf0d19fa10a7c656adc8511b2c3
-‚
 Rsrc/test/java/com/hackaton/booking/management/api/service/BuildingServiceTest.java,b\b\bb2255dd952dd81a2877c82fabac5ef2ef3d018a
 ‚
 Rsrc/test/java/com/hackaton/booking/management/api/service/BathroomServiceTest.java,b\3\b31f7408f342f58c6395364bd9ae309761a335a2
@@ -118,9 +108,3 @@ Msrc/test/java/com/hackaton/booking/management/api/fixture/AmenityFixture.java,
 Nsrc/test/java/com/hackaton/booking/management/api/fixture/BathroomFixture.java,a\a\aa77dd7efa4b85a91eb539ea712492b1a1f04338
 ~
 Nsrc/test/java/com/hackaton/booking/management/api/fixture/BuildingFixture.java,a\0\a010083371983330045dff2ad2e0754d9c578bbb
-
-Osrc/test/java/com/hackaton/booking/management/api/fixture/FurnitureFixture.java,6\0\60acc0556f69a1fc0fbeb2184fe263d73d02ad15
-~
-Nsrc/test/java/com/hackaton/booking/management/api/fixture/LocationFixture.java,7\c\7cacd6ac47f15736ce03892d2cd4a6d0ac28a47c
-z
-Jsrc/test/java/com/hackaton/booking/management/api/fixture/RoomFixture.java,7\9\79920273e0e427bf0c403bfcd0ba234755f1ce3b
