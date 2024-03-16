@@ -107,4 +107,8 @@ A partir desse momento, a imagem do banco de dados PostgreSQL e dos dois micross
 Ao finalizar este processo as APIS Booking Management API e Booking API subirão 
 nas portas 8080 e 8081, respectivamente.
 
+Para o envio de emails, é necessário um email no domínio do GMAIL. No
+arquivo _application.yml_ existe duas variáveis de ambiente para o email
+e senha. Idealmente, a senha deverá ser gerada no Gmail como "Senha de App".
+
 *Nota : Ao subir a aplicação, é possível acessar seus Swaggers, através dos links:* http://localhost:8080/swagger-ui/index.html#/ e http://localhost:8081/swagger-ui/index.html#/
